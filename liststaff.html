@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
+    <title>Staff CRUD</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: "Jersey 15", serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Sidebar styling (same as dashboard) */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #967c08;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 50px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            border-bottom: 1px solid #967c08;
+        }
+
+        .sidebar a:hover {
+            background-color: #5a4a04;
+        }
+
+        .btn {
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 15px;
+            display: inline-block;
+            font-family: "Jersey 15", serif;
+        }
+
+        .btn:hover {
+            background-color: rgb(0, 90, 0);
+        }
+
+        .btn1 {
+            background-color: rgb(0, 183, 255);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 15px;
+            display: inline-block;
+            font-family: "Jersey 15", serif;
+        }
+
+        .btn1:hover {
+            background-color: rgb(0, 78, 109);
+        }
+
+        .btn2 {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 15px;
+            display: inline-block;
+            font-family: "Jersey 15", serif;
+        }
+
+        .btn2:hover {
+            background-color: rgb(136, 0, 0);
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .card {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;  /* Center the text */
+}
+
+table th {
+    background-color: #967c08;
+    color: white;
+}
+
+.form-input {
+    margin-bottom: 10px;
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: "Jersey 15", serif;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #967c08;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2 style="text-align: center;">Dashboard</h2>
+        <a href="dashboard.html">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <a href="index.html">Logout</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+        <h1>Manage Driver</h1>
+        <!-- Total Staff Card -->
+        <div class="card">
+            <h2>List Driver</h2>
+            <p>Here you can add new driver to the list.</p>
+            <a href="dashboard.html" class="btn">Go Back to Dashboard</a>
+        </div>
+        <!-- Add Staff Form -->
+        <div class="card">
+            <h2>Add New Staff</h2>
+            <form id="staffForm">
+                <div class="form-group">
+                    <input class="form-input" type="text" id="name" placeholder="Name" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-input" type="text" id="id" placeholder="Car ID" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-input" type="text" id="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-input" type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-input" type="text" id="position" placeholder="Van Company" required>
+                </div>
+                <button type="button" class="btn" onclick="addStaff()">Save Staff</button>
+            </form>
+        </div>
+
+        <!-- Staff List Table -->
+        <div class="card">
+            <h2>List Staff</h2>
+            <table id="staffTable">
+                <thead>
+                    <tr>
+                        <th>N.O</th>
+                        <th>Name</th>
+                        <th>Car ID</th>
+                        <th>Phone Number</th>
+                        <th>Date</th>
+                        <th>Van Company</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Staff data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 TSMC. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Load staff data from localStorage
+        function loadStaffData() {
+            const staffData = JSON.parse(localStorage.getItem('staffData')) || [];
+            const staffTableBody = document.querySelector('#staffTable tbody');
+            staffTableBody.innerHTML = '';
+    
+            staffData.forEach((staff, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td> <!-- Serial Number -->
+                    <td>${staff.name}</td>
+                    <td>${staff.id}</td>
+                    <td>${staff.phone}</td>
+                    <td>${staff.date}</td>
+                    <td>${staff.position}</td>
+                    <td>
+                        <button class="btn1" onclick="editStaff(${index})">Edit</button>
+                        <button class="btn2" onclick="deleteStaff(${index})">Delete</button>
+                        <button class="btn" onclick="toggleStatus(${index})">
+                            ${staff.active ? 'Deactivate' : 'Activate'}
+                        </button>
+                    </td>
+                `;
+                staffTableBody.appendChild(row);
+            });
+        }
+    
+        // Function to add staff data
+        function addStaff() {
+            const name = document.getElementById('name').value;
+            const id = document.getElementById('id').value;
+            const phone = document.getElementById('phone').value;
+            const date = document.getElementById('date').value;
+            const position = document.getElementById('position').value;
+    
+            if (name && id && phone && date && position) {
+                const staffData = JSON.parse(localStorage.getItem('staffData')) || [];
+                staffData.push({ name, id, phone, date, position, active: true }); // Add active status
+                localStorage.setItem('staffData', JSON.stringify(staffData));
+                loadStaffData(); // Reload the staff list
+                document.getElementById('staffForm').reset(); // Clear form inputs
+            }
+        }
+    
+        // Function to toggle the staff status between Active and Inactive
+        function toggleStatus(index) {
+            const staffData = JSON.parse(localStorage.getItem('staffData')) || [];
+            staffData[index].active = !staffData[index].active; // Toggle active status
+            localStorage.setItem('staffData', JSON.stringify(staffData));
+            loadStaffData(); // Reload the staff list to reflect the change
+        }
+    
+        // Function to edit staff data
+        function editStaff(index) {
+            const staffData = JSON.parse(localStorage.getItem('staffData')) || [];
+            const staff = staffData[index];
+    
+            document.getElementById('name').value = staff.name;
+            document.getElementById('id').value = staff.id;
+            document.getElementById('phone').value = staff.phone;
+            document.getElementById('date').value = staff.date;
+            document.getElementById('position').value = staff.position;
+    
+            // Change the button to update staff
+            const saveButton = document.querySelector('button[type="button"]');
+            saveButton.innerHTML = 'Update Staff';
+            saveButton.setAttribute('onclick', `updateStaff(${index})`);
+        }
+    
+        // Function to update staff data
+        function updateStaff(index) {
+            const name = document.getElementById('name').value;
+            const id = document.getElementById('id').value;
+            const phone = document.getElementById('phone').value;
+            const date = document.getElementById('date').value;
+            const position = document.getElementById('position').value;
+    
+            if (name && id && phone && date && position) {
+                const staffData = JSON.parse(localStorage.getItem('staffData')) || [];
+                staffData[index] = { name, id, phone, date, position, active: staffData[index].active }; // Preserve the active status
+                localStorage.setItem('staffData', JSON.stringify(staffData));
+                loadStaffData();
+                document.getElementById('staffForm').reset();
+                const saveButton = document.querySelector('button[type="button"]');
+                saveButton.innerHTML = 'Save Staff';
+                saveButton.setAttribute('onclick', 'addStaff()');
+            }
+        }
+    
+        // Function to delete staff data
+        function deleteStaff(index) {
+            const staffData = JSON.parse(localStorage.getItem('staffData')) || [];
+            staffData.splice(index, 1);
+            localStorage.setItem('staffData', JSON.stringify(staffData));
+            loadStaffData();
+        }
+    
+        // Load the staff data when the page is loaded
+        window.onload = loadStaffData;
+    </script>
+    
+
+</body>
+</html>

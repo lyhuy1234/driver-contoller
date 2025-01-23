@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+15&display=swap" rel="stylesheet">
+    <title>Total Staff View</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: "Jersey 15", serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #967c08;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            border-bottom: 1px solid #967c08;
+        }
+
+        .sidebar a:hover {
+            background-color: #5a4a04;
+        }
+
+        /* Sidebar Menu Button */
+        .menu-btn {
+            display: none;
+            background-color: #967c08;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2, h3 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .btn {
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: rgb(0, 90, 0);
+        }
+
+        /* Stats Section */
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: #967c08;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .stat-card:last-child {
+            margin-right: 0;
+        }
+
+        .stat-card p {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .stat-card h3 {
+            font-size: 24px;
+        }
+
+        /* Staff List Table */
+        .staff-list {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .staff-list th, .staff-list td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .staff-list th {
+            background-color: #967c08;
+            color: white;
+        }
+
+        /* Responsive Styling */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-250px);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-card {
+                margin-bottom: 15px;
+                width: 100%;
+            }
+
+            .stat-card:last-child {
+                margin-bottom: 0;
+            }
+
+            .staff-list th, .staff-list td {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h2 style="text-align: center;">Dashboard</h2>
+        <a href="dashboard.html">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Settings</a>
+        <a href="index.html">Logout</a>
+    </div>
+
+    <!-- Menu Button for Mobile -->
+    <button class="menu-btn" id="menu-btn">&#9776;</button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Total Staff Card -->
+        <div class="card">
+            <h2>Total Staff</h2>
+            <p>Here you can view the total number of staff, as well as the active and inactive staff counts.</p>
+            <a href="dashboard.html" class="btn">Go Back to Dashboard</a>
+        </div>
+
+        <!-- Stats Section for Total Staff, Active, and Inactive -->
+        <div class="card">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Total Driver</h3>
+                    <p id="totalStaff">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Driver</h3>
+                    <p id="activeStaff">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Inactive Driver</h3>
+                    <p id="inactiveStaff">0</p>
+                </div>
+            </div>
+
+            <!-- List of Car IDs and Positions Section -->
+            <h3>List of Staff (Car ID and Position)</h3>
+            <table class="staff-list" id="staffTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Car ID</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Staff data will be dynamically populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Load staff data from localStorage
+        function loadStaffData() {
+            const staffData = JSON.parse(localStorage.getItem('staffData')) || [];
+            
+            // Update total counts
+            const totalStaff = staffData.length;
+            const activeStaff = staffData.filter(staff => staff.active).length;
+            const inactiveStaff = staffData.filter(staff => !staff.active).length;
+
+            document.getElementById('totalStaff').textContent = totalStaff;
+            document.getElementById('activeStaff').textContent = activeStaff;
+            document.getElementById('inactiveStaff').textContent = inactiveStaff;
+
+            // Update staff list (Car ID, Position, and Status)
+            const staffTableBody = document.querySelector('#staffTable tbody');
+            staffTableBody.innerHTML = '';
+
+            staffData.forEach((staff) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${staff.name}</td>
+                    <td>${staff.id}</td>
+                    <td>${staff.position}</td>
+                    <td><span class="${staff.active ? 'active' : 'inactive'}">${staff.active ? 'Active' : 'Inactive'}</span></td>
+                `;
+                staffTableBody.appendChild(row);
+            });
+        }
+
+        // Toggle the sidebar visibility when the menu button is clicked
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        menuBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+
+        // Load the staff data when the page is loaded
+        window.onload = loadStaffData;
+    </script>
+
+</body>
+</html>
