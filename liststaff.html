@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD System with Active/Inactive Switch</title>
+    <title>Responsive CRUD System</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Adjust font size for mobile responsiveness */
+        table td, table th {
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            table td, table th {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container my-5">
-        <h1 class="text-center mb-4">CRUD System with Active/Inactive</h1>
+        <h1 class="text-center mb-4">Responsive CRUD System</h1>
         <!-- Form for Adding New Data -->
         <form id="crudForm" class="mb-4">
             <div class="row g-3">
@@ -20,12 +31,9 @@
                     <input type="text" class="form-control" id="id" placeholder="ID" required>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control" id="phone" placeholder="Phone Number" required>
+                    <input type="text" class="form-control" id="position" placeholder="Position" required>
                 </div>
                 <div class="col-md-3">
-                    <input type="date" class="form-control" id="date" required>
-                </div>
-                <div class="col-md-1">
                     <button type="submit" class="btn btn-primary w-100">Add</button>
                 </div>
             </div>
@@ -36,10 +44,10 @@
             <table class="table table-bordered text-center">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID</th>
+                        <th>N.O</th>
                         <th>Name</th>
-                        <th>Phone Number</th>
-                        <th>Date</th>
+                        <th>ID</th>
+                        <th>Position</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -51,7 +59,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS (Optional) -->
+    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- JavaScript for CRUD Operations -->
     <script>
@@ -66,24 +74,23 @@
 
             const name = document.getElementById('name').value;
             const id = document.getElementById('id').value;
-            const phone = document.getElementById('phone').value;
-            const date = document.getElementById('date').value;
+            const position = document.getElementById('position').value;
 
             if (editRow) {
                 // Edit Existing Row
-                editRow.children[0].textContent = id;
                 editRow.children[1].textContent = name;
-                editRow.children[2].textContent = phone;
-                editRow.children[3].textContent = date;
+                editRow.children[2].textContent = id;
+                editRow.children[3].textContent = position;
                 editRow = null;
             } else {
                 // Add New Row
+                const rowCount = dataTable.rows.length + 1; // Calculate row number
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${id}</td>
+                    <td>${rowCount}</td>
                     <td>${name}</td>
-                    <td>${phone}</td>
-                    <td>${date}</td>
+                    <td>${id}</td>
+                    <td>${position}</td>
                     <td>
                         <div class="form-check form-switch">
                             <input class="form-check-input status-switch" type="checkbox" checked>
@@ -107,14 +114,13 @@
             if (e.target.classList.contains('edit-btn')) {
                 // Edit Button
                 editRow = e.target.closest('tr');
-                document.getElementById('id').value = editRow.children[0].
-                                document.getElementById('id').value = editRow.children[0].textContent;
                 document.getElementById('name').value = editRow.children[1].textContent;
-                document.getElementById('phone').value = editRow.children[2].textContent;
-                document.getElementById('date').value = editRow.children[3].textContent;
+                document.getElementById('id').value = editRow.children[2].textContent;
+                document.getElementById('position').value = editRow.children[3].textContent;
             } else if (e.target.classList.contains('delete-btn')) {
                 // Delete Button
                 e.target.closest('tr').remove();
+                updateRowNumbers();
             } else if (e.target.classList.contains('status-switch')) {
                 // Toggle Status
                 const row = e.target.closest('tr');
@@ -126,6 +132,14 @@
                 }
             }
         });
+
+        // Update Row Numbers after Deletion
+        function updateRowNumbers() {
+            const rows = dataTable.querySelectorAll('tr');
+            rows.forEach((row, index) => {
+                row.children[0].textContent = index + 1; // Update N.O column
+            });
+        }
     </script>
 </body>
 </html>
