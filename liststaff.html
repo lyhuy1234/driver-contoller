@@ -108,3 +108,24 @@
                 // Edit Button
                 editRow = e.target.closest('tr');
                 document.getElementById('id').value = editRow.children[0].
+                                document.getElementById('id').value = editRow.children[0].textContent;
+                document.getElementById('name').value = editRow.children[1].textContent;
+                document.getElementById('phone').value = editRow.children[2].textContent;
+                document.getElementById('date').value = editRow.children[3].textContent;
+            } else if (e.target.classList.contains('delete-btn')) {
+                // Delete Button
+                e.target.closest('tr').remove();
+            } else if (e.target.classList.contains('status-switch')) {
+                // Toggle Status
+                const row = e.target.closest('tr');
+                const statusLabel = row.querySelector('.form-check-label');
+                if (e.target.checked) {
+                    statusLabel.textContent = 'Active';
+                } else {
+                    statusLabel.textContent = 'Inactive';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
